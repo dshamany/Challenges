@@ -26,39 +26,99 @@ public:
         }
         return result;
     }
+    bool isIPv4(const string &address)
+    {
+        auto v = splitString(address, ".");
+
+        if (v.size() != 4)
+            return false;
+
+        for (auto &e : v)
+        {
+            if (e[0] == '0' && e.size() > 1)
+                return false;
+
+            string tmp = "";
+
+            for (auto &c : e)
+            {
+                if (isdigit(c))
+                {
+                    tmp += c;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            int n = 0;
+
+            if (tmp == "")
+            {
+                return false;
+            }
+            else
+            {
+                n = stoi(tmp); // convert tmp to digit
+            }
+
+            tmp = "";
+
+            if (n > 255 || n < 0)
+                return false;
+        }
+
+        return true;
+    }
+    bool isIPv6(const string &address)
+    {
+
+        const char hex[22] = "123456789ABCDEFabcdef";
+
+        auto v = splitString(address, ":");
+
+        if (v.size() != 8)
+        {
+            return false;
+        }
+
+        for (auto &e : v)
+        {
+            if (e.size() > 4 || e.size() < 1)
+                return false;
+
+            for (auto &c : e)
+            {
+                if (!isxdigit(c))
+                    return false;
+            }
+        }
+
+        return true;
+    }
     string validIPAddress(const string &IP)
     {
-        return "";
+        if (IP.find(".") != string::npos)
+        {
+            if (isIPv4(IP))
+                return "IPv4";
+        }
+
+        if (IP.find(":") != string::npos)
+        {
+            if (isIPv6(IP))
+                return "IPv6";
+        }
+        return "Neither";
     }
 };
 
 int main(int argc, char const *argv[])
 {
-    string IP = "sFS::fdsf::fsdfs::0000::fsdfs::0000::sfdsfds";
-    string IPv4 = "123.123.123.123";
-    string rplce = "0000";
-
-    std::cout << IP << " ->  ";
-
-    while (IP.find(rplce) != string::npos)
-    {
-        IP.replace(IP.find(rplce), rplce.size(), "0");
-    }
-
-    std::cout << IP << std::endl;
-
-    puts("Split Here");
-
     Solution sol;
-    auto v = sol.splitString(IP, "::");
 
-    // std::cout << v.size() << "\n";
-
-    for (auto &e : v)
-    {
-        std::cout << e << ' ';
-    }
-    puts("");
+    std::cout << sol.validIPAddress(argv[1]) << std::endl;
 
     return 0;
 }
