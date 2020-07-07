@@ -1,7 +1,8 @@
+
 #include <iostream>
 #include <vector>
-#include <string>
 #include <algorithm>
+#include <sstream>
 
 using std::string;
 using std::vector;
@@ -9,56 +10,54 @@ using std::vector;
 class Solution
 {
 public:
-    string contains_substr(const string &word, const string &sub_char)
+    string substr_contains(const string &word, const string &sub_char)
     {
         auto str_cpy = word;
 
         for (auto &s : sub_char)
         {
             int pos = str_cpy.find(s);
-            if (pos >= 0)
+            if (pos != string::npos)
                 str_cpy.replace(pos, 1, "*");
             else
-            {
                 return "";
-            }
         }
 
         int b = str_cpy.find('*');
         int e = str_cpy.rfind('*');
 
-        str_cpy = ""; // reuse variable;
-
-        for (int i = b; i <= e; i++)
-        {
-            str_cpy += word[i];
-        }
+        str_cpy = word.substr(b, e + 1);
 
         return str_cpy;
     }
-    string minWindow(string s, string t)
+    string minWindow(const string &s, const string &t)
     {
 
         if (t.size() > s.size())
             return "";
 
         vector<string> words;
-        int s_pos = 0;
+        string content = "";
 
-        for (auto it = s.begin(); it != s.end(); it++, s_pos++)
+        for (auto it = s.begin(); it != s.end(); it++)
         {
-            words.push_back(contains_substr(s.substr(s_pos), t));
+            content = substr_contains(s.substr(it - s.begin()), t);
+            if (content != "" && content.size() >= t.size())
+                words.push_back(content);
         }
 
         std::sort(words.begin(), words.end(), [](auto &a, auto &b) {
             return a.size() < b.size();
         });
 
-        std::remove_if(words.begin(), words.end(), [=](auto &word) {
-            return word.size() < t.size() || !word.size();
-        });
+        for (auto &w : words)
+        {
+            std::cout << w << "\n";
+            if (w.size() >= t.size())
+                return w;
+        }
 
-        return words[0];
+        return "";
     }
 };
 

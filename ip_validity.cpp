@@ -38,6 +38,9 @@ public:
             if (e[0] == '0' && e.size() > 1)
                 return false;
 
+            if (e.size() < 1 || e.size() > 3)
+                return false;
+
             string tmp = "";
 
             for (auto &c : e)
