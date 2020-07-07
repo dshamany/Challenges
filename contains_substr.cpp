@@ -13,7 +13,6 @@ public:
     string substr_contains(const string &word, const string &sub_char)
     {
         auto str_cpy = word;
-
         for (auto &s : sub_char)
         {
             int pos = str_cpy.find(s);
@@ -52,7 +51,6 @@ public:
 
         for (auto &w : words)
         {
-            std::cout << w << "\n";
             if (w.size() >= t.size())
                 return w;
         }
