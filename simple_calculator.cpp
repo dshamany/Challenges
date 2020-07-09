@@ -8,6 +8,20 @@ using std::vector;
 
 Node<string> *parseString(const string &str);
 
+bool isOperator(const string &c)
+{
+    if (c == "*" || c == "/" || c == "+" || c == "-")
+        return true;
+    return false;
+}
+
+bool opcmp(const string &op1, const string &op2)
+{
+    map<string, int> ops = {{"*", 4}, {"/", 3}, {"+", 2}, {"-", 1}};
+
+    return ops[op1] > ops[op2];
+}
+
 template <typename T>
 void printTree(Node<T> *node, const string &order = "in")
 {
@@ -58,7 +72,7 @@ Node<string> *convertToBTree(vector<string> &from)
         {
             root = new Node<string>(*it);
         }
-        else if (*it == "*" || *it == "/" || *it == "+" || *it == "-")
+        else if (isOperator(*it))
         {
             root = new Node<string>(*it, root);
         }
@@ -73,7 +87,6 @@ Node<string> *convertToBTree(vector<string> &from)
                 str += *it;
                 it++;
             }
-
             auto res = parseString(str);
             root->right = res;
         }
@@ -119,12 +132,18 @@ Node<string> *parseString(const string &str)
     return convertToBTree(parsed);
 }
 
-int main(int argc, const char *argv[])
+int main(int argc, char *argv[])
 {
     string str = argv[1];
 
+    std::cout << str;
+
+    str.erase(str.find("("), 1);
+    str.erase(str.find(")"), 1);
+
     auto p = parseString(str);
 
-    std::cout << str << " = " << calc(p) << std::endl;
+    std::cout << " = " << calc(p) << std::endl;
+
     return 0;
 }
