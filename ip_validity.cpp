@@ -76,9 +76,6 @@ public:
     }
     bool isIPv6(const string &address)
     {
-
-        const char hex[22] = "123456789ABCDEFabcdef";
-
         auto v = splitString(address, ":");
 
         if (v.size() != 8)
@@ -120,7 +117,6 @@ public:
 int main(int argc, char const *argv[])
 {
     Solution sol;
-
     std::cout << sol.validIPAddress(argv[1]) << std::endl;
 
     return 0;
