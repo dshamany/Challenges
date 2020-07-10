@@ -106,13 +106,8 @@ public:
 
 int main(int argc, char const *argv[])
 {
-    // Node *root = new Node(3);
-    // root->left = new Node(9, new Node(77), new Node(88));
-    // root->right = new Node(20, new Node(15), new Node(7));
 
     Solution s;
-
-    // auto v = s.bfs(root);
 
     Heap *h = new Heap();
     h->push(3);
