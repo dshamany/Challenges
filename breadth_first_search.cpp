@@ -107,16 +107,16 @@ public:
 int main(int argc, char const *argv[])
 {
 
+    vector<int> values = {3, 9, 77, 88, 20, 15, 7};
+
     Solution s;
 
     Heap *h = new Heap();
-    h->push(3);
-    h->push(9);
-    h->push(77);
-    h->push(88);
-    h->push(20);
-    h->push(15);
-    h->push(7);
+
+    for (auto &n : values)
+    {
+        h->push(n);
+    }
 
     auto v = s.bfs(h->begin());
 
